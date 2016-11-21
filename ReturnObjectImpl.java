@@ -7,7 +7,14 @@ public class ReturnObjectImpl implements ReturnObject {/**
 	 * Returns whether there has been an error
 	 * @return whether there has been an error
 	 */
-	public boolean hasError();
+	public boolean hasError(); {
+		if (getReturnValue() == null)  {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 
 	/**
 	 * Returns the error message. 
@@ -18,7 +25,10 @@ public class ReturnObjectImpl implements ReturnObject {/**
 	 * @return the error message
 	 */
 	public ErrorMessage getError() {
-		
+		if (hasError == false) {
+			return ErrorMessage.NO_ERROR;
+		}
+		else 
 	}
 
 	/**
@@ -33,7 +43,17 @@ public class ReturnObjectImpl implements ReturnObject {/**
 	 * 
 	 * @return the return value from the method or null if there has been an error
 	 */
-	public Object getReturnValue();
+	public Object getReturnValue(); {
+		if 
+	}
+	
+	public ReturnObjectImpl(Object obj) {
+		this.getError() = NO_ERROR;
+	}
+	
+	public ReturnObjectImpl(ErrorMessage error) {
+		this.getError = error;
+	}
 
 	
 }
