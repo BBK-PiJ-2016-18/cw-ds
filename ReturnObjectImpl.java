@@ -2,16 +2,40 @@ public class ReturnObjectImpl implements ReturnObject {/**
  * A wrapper containing either an object (the result of an operation on a data structure) or an error value.
  *
 
+	/*
+	* adding fields
+	*/
+	
+	private Object obj;
+	private ErrorMessage error;
+	
+	/**
+	* The constructor for when there is no error
+	*/
+	
+	ReturnObjectImpl(Object obj) {
+		this.obj = obj;
+		this.error = error;
+	}
+	
+	/**
+	* The constructor for when there has been an error
+	*/
+	
+	public ReturnObjectImpl(ErrorMessage error) {
+		this.error = error;
+	}
+	
 	/**
 	 * Returns whether there has been an error
 	 * @return whether there has been an error
 	 */
 	
 	public boolean hasError() {
-		if (getReturnValue() == null)  {
-			return true;
+		if (this.error == ErrorMessage.NO_ERROR)  {
+			return false;
 		}
-		return false;
+		return true;
 	}
 
 	/**
@@ -22,10 +46,7 @@ public class ReturnObjectImpl implements ReturnObject {/**
 	 * @return the error message
 	 */
 	public ErrorMessage getError() {
-		if (hasError() == false) {
-			return ErrorMessage.NO_ERROR;
-		}
-		return ErrorMessage.EMPTY_STRUCTURE;
+		return this.error;
 	}
 
 	/**
@@ -42,28 +63,4 @@ public class ReturnObjectImpl implements ReturnObject {/**
 		}
 		return this.obj;
 	}
-	
-	/*
-	* adding a field
-	*/
-	
-	private Object obj;
-	
-	/**
-	* The constructor for when there is no error
-	*/
-	
-	ReturnObjectImpl(Object obj) {
-		this.obj = obj;
-	}
-	
-	/**
-	* The constructor for when there has been an error
-	*/
-	
-	public ReturnObjectImpl(ErrorMessage error) {
-		this.getError() = error;
-	}
-
-	
 }
