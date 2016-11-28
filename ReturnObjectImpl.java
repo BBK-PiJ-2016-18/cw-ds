@@ -15,7 +15,7 @@ public class ReturnObjectImpl implements ReturnObject {/**
 	
 	ReturnObjectImpl(Object obj) {
 		this.obj = obj;
-		this.error = error;
+		this.error = ErrorMessage.NO_ERROR;
 	}
 	
 	/**

@@ -21,10 +21,17 @@
  */
 public class ArrayList implements List {
 	
-	public Object[] {
-		
-	}
+	public Object[] list = {};
 	
+	/**
+	 * Returns the number of items currently in the list.
+	 * 
+	 * @return the number of items currently in the list
+	 */
+	public int size() {
+		return list.length;
+	}
+
 	/**
 	 * Returns true if the list is empty, false otherwise. 
 	 * 
@@ -38,15 +45,6 @@ public class ArrayList implements List {
 	}
 
 	/**
-	 * Returns the number of items currently in the list.
-	 * 
-	 * @return the number of items currently in the list
-	 */
-	public int size(); {
-		int
-	}
-
-	/**
 	 * Returns the element at the given position. 
 	 * 
 	 * If the index is negative or greater or equal than the size of
@@ -56,7 +54,12 @@ public class ArrayList implements List {
 	 * @return the element or an appropriate error message, 
 	 *         encapsulated in a ReturnObject
 	 */
-	public ReturnObject get(int index);
+	public ReturnObjectImpl get(int index); {
+		if (index >= list.length || index < 0) {
+			return ErrorMessage.INDEX_OUT_OF_BOUNDS;
+		}
+		return list[index];
+	}
 
 	/**
 	 * Returns the elements at the given position and removes it
@@ -70,7 +73,17 @@ public class ArrayList implements List {
 	 * @return the element or an appropriate error message, 
 	 *         encapsulated in a ReturnObject
 	 */
-	public ReturnObject remove(int index);
+	public ReturnObjectImpl remove(int index); {
+		Object obj = list[index];
+		int length = list.length; // Storing the length
+		if (index < length) { // adjusting  indexes, unless deleted element is the last, hence 'if' clause
+			for (int i = index; i < length; i++) {
+				list[i] = list[i+1];
+			}
+		}
+		list.length = length - 1;
+		return obj;
+	}
 
 	/**
 	 * Adds an element to the list, inserting it at the given
@@ -90,7 +103,7 @@ public class ArrayList implements List {
 	 * @return an ReturnObject, empty if the operation is successful
 	 *         or containing an appropriate error message otherwise
 	 */
-	public ReturnObject add(int index, Object item);
+	public ReturnObjectImpl add(int index, Object item); 
 
 	/**
 	 * Adds an element at the end of the list.
@@ -103,5 +116,5 @@ public class ArrayList implements List {
 	 * @return an ReturnObject, empty if the operation is successful
 	 *         or containing an appropriate error message otherwise
 	 */
-	public ReturnObject add(Object item);
+	public ReturnObjectImpl add(Object item);
 }
