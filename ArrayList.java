@@ -37,8 +37,8 @@ public class ArrayList implements List {
 	 * 
 	 * @return true if the list is empty, false otherwise. 
 	 */
-	public boolean isEmpty(); {
-		if (size == 0) {
+	public boolean isEmpty() {
+		if (size() == 0) {
 			return true;
 		}
 		return false;
@@ -54,11 +54,13 @@ public class ArrayList implements List {
 	 * @return the element or an appropriate error message, 
 	 *         encapsulated in a ReturnObject
 	 */
-	public ReturnObjectImpl get(int index); {
+	public ReturnObjectImpl get(int index) {
 		if (index >= list.length || index < 0) {
-			return ErrorMessage.INDEX_OUT_OF_BOUNDS;
+			ReturnObjectImpl returnerror = new ReturnObjectImpl(ErrorMessage.INDEX_OUT_OF_BOUNDS);
+			return returnerror;
 		}
-		return list[index];
+		ReturnObjectImpl returnobj = new ReturnObjectImpl(list[index]);
+		return returnobj;
 	}
 
 	/**
@@ -73,16 +75,26 @@ public class ArrayList implements List {
 	 * @return the element or an appropriate error message, 
 	 *         encapsulated in a ReturnObject
 	 */
-	public ReturnObjectImpl remove(int index); {
-		Object obj = list[index];
-		int length = list.length; // Storing the length
-		if (index < length) { // adjusting  indexes, unless deleted element is the last, hence 'if' clause
-			for (int i = index; i < length; i++) {
-				list[i] = list[i+1];
+	public ReturnObjectImpl remove(int index) {
+		if (index < 0 || index > list.length) {
+			ReturnObjectImpl returnerror = new ReturnObjectImpl(ErrorMessage.INDEX_OUT_OF_BOUNDS);
+			return returnerror;
+		}
+		Object toBeReturned = list[index];
+		int newLength = list.length - 1;
+		Object[] newList = new Object[newLength];
+		if (index > 0) {
+			for (int i = 0; i < index; i++) {
+				newList[i] = list[i];
 			}
 		}
-		list.length = length - 1;
-		return obj;
+		if (index < list.length) { 
+			for (int i = index; i < list.length; i++) {
+				newList[i] = list[i+1];
+			}
+		}
+		ReturnObjectImpl returner = new ReturnObjectImpl(toBeReturned);
+		return returner;
 	}
 
 	/**
@@ -103,7 +115,37 @@ public class ArrayList implements List {
 	 * @return an ReturnObject, empty if the operation is successful
 	 *         or containing an appropriate error message otherwise
 	 */
-	public ReturnObjectImpl add(int index, Object item); 
+	public ReturnObjectImpl add(int index, Object item) {
+		
+		if (index < 0 || index > list.length) {
+			ReturnObjectImpl returnerror = new ReturnObjectImpl(ErrorMessage.INDEX_OUT_OF_BOUNDS);
+			return returnerror;
+		}
+		
+		if (item == null) {
+			ReturnObjectImpl returnerror = new ReturnObjectImpl(ErrorMessage.INVALID_ARGUMENT);
+			return returnerror;
+		}
+		
+		int newLength = list.length + 1;
+		Object[] newList = new Object[newLength];
+		
+		if (index > 0) {
+			for (int i = 0; i < index; i++) {
+				newList[i] = list[i];
+			}
+		}		
+		
+		newList[index] = item;
+		
+		if (index < list.length) { 
+			for (int i = index; i < list.length; i++) {
+				newList[i] = list[i-1];
+			}
+		}
+		ReturnObjectImpl emptyReturn = new ReturnObjectImpl(null);
+		return emptyReturn;
+	}
 
 	/**
 	 * Adds an element at the end of the list.
@@ -116,5 +158,21 @@ public class ArrayList implements List {
 	 * @return an ReturnObject, empty if the operation is successful
 	 *         or containing an appropriate error message otherwise
 	 */
-	public ReturnObjectImpl add(Object item);
+	public ReturnObjectImpl add(Object item) {
+		
+		if (item == null) {
+			ReturnObjectImpl returnerror = new ReturnObjectImpl(ErrorMessage.INVALID_ARGUMENT);
+			return returnerror;
+		}
+		
+		int newLength = list.length + 1;
+		Object[] newList = new Object[newLength];
+		
+		for (int i = 0; i < list.length; i++) {
+			newList[i] = list[i];
+		}
+		newList[newLength - 1] = item;
+		ReturnObjectImpl emptyReturn = new ReturnObjectImpl(null);
+		return emptyReturn;
+	}
 }
