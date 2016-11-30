@@ -11,9 +11,9 @@
  * 
  * @author PiJ
  */
-public class ArrayList implements List {
+public class LinkedList implements List {
 	
-	public Object[] list = {};
+	ListElement firstElement = null;
 	
 	/**
 	 * Returns the number of items currently in the list.
@@ -21,16 +21,22 @@ public class ArrayList implements List {
 	 * @return the number of items currently in the list
 	 */
 	public int size() {
-		return list.length;
+		 int count = 0;
+        ListElement nextElement = firstElement;
+        while (nextElement != null) {
+            count++;
+            nextElement = nextElement.getNextElement();
+        } 
+        return count;
 	}
-
+	
 	/**
 	 * Returns true if the list is empty, false otherwise. 
 	 * 
 	 * @return true if the list is empty, false otherwise. 
 	 */
 	public boolean isEmpty() {
-		if (this.size() == 0) {
+		if (size() == 0) {
 			return true;
 		}
 		return false;
@@ -44,16 +50,20 @@ public class ArrayList implements List {
 	 * @param index the position in the list of the item to be retrieved
 	 * @return the element or an appropriate error message,  encapsulated in a ReturnObject
 	 */
-	public ReturnObjectImpl get(int index) {
+	public ReturnObject get(int index) {
 		if (this.isEmpty() == true) {
 			ReturnObjectImpl returnerror = new ReturnObjectImpl(ErrorMessage.EMPTY_STRUCTURE);
 			return returnerror;
 		}
-		if (index >= list.length || index < 0) {
+		if (index < 0 || index >= this.size()) {
 			ReturnObjectImpl returnerror = new ReturnObjectImpl(ErrorMessage.INDEX_OUT_OF_BOUNDS);
 			return returnerror;
 		}
-		ReturnObjectImpl returnobj = new ReturnObjectImpl(list[index]);
+		ListElement currentElement = this.firstElement;
+		while (currentElement.getIndex() != index) {
+			currentElement = currentElement.getNextElement();
+		}
+		ReturnObjectImpl returnobj = new ReturnObjectImpl(currentElement.getIndex());
 		return returnobj;
 	}
 
@@ -65,30 +75,27 @@ public class ArrayList implements List {
 	 * @param index the position in the list of the item to be retrieved
 	 * @return the element or an appropriate error message, encapsulated in a ReturnObject
 	 */
-	public ReturnObjectImpl remove(int index) {
+	public ReturnObject remove(int index) {
 		if (this.isEmpty() == true) {
 			ReturnObjectImpl returnerror = new ReturnObjectImpl(ErrorMessage.EMPTY_STRUCTURE);
 			return returnerror;
 		}
-		if (index < 0 || index >= list.length) {
+		if (index < 0 || index >= this.size()) {
 			ReturnObjectImpl returnerror = new ReturnObjectImpl(ErrorMessage.INDEX_OUT_OF_BOUNDS);
 			return returnerror;
 		}
-		Object toBeReturned = list[index];
-		int newLength = list.length - 1;
-		Object[] newList = new Object[newLength];
-		if (index > 0) {
-			for (int i = 0; i < index; i++) {
-				newList[i] = list[i];
-			}
+		ListElement currentElement = this.firstElement;
+		ListElement prevElement = null; // Make sure this works!
+		while (currentElement.getIndex() != index) {
+			prevElement = currentElement;
+			currentElement = currentElement.getNextElement();
 		}
-		if (index < list.length) { 
-			for (int i = index; i < newLength; i++) {
-				newList[i] = list[i+1];
-			}
+		ReturnObjectImpl returner = new ReturnObjectImpl(currentElement);
+		prevElement.changePointer(currentElement.getNextElement());
+		while (currentElement.getNextElement() != null) {
+			currentElement = currentElement.getNextElement();
+			currentElement.reduceIndex();
 		}
-		list = newList;
-		ReturnObjectImpl returner = new ReturnObjectImpl(toBeReturned);
 		return returner;
 	}
 
@@ -103,7 +110,7 @@ public class ArrayList implements List {
 	 * @param item the value to insert into the list
 	 * @return an ReturnObject, empty if the operation is successful or containing an appropriate error message otherwise
 	 */
-	public ReturnObjectImpl add(int index, Object item) {
+	public ReturnObject add(int index, Object item) {		
 		if (this.isEmpty() == true) {
 			ReturnObjectImpl returnerror = new ReturnObjectImpl(ErrorMessage.EMPTY_STRUCTURE);
 			return returnerror;
@@ -115,24 +122,17 @@ public class ArrayList implements List {
 		if (item == null) {
 			ReturnObjectImpl returnerror = new ReturnObjectImpl(ErrorMessage.INVALID_ARGUMENT);
 			return returnerror;
-		}		
-		int newLength = list.length + 1;
-		Object[] newList = new Object[newLength];
-		
-		if (index > 0) {
-			for (int i = 0; i < index; i++) {
-				newList[i] = list[i];
-			}
-		}		
-		
-		newList[index] = item;
-		
-		if (index < list.length) { 
-			for (int i = index + 1; i < newLength; i++) {
-				newList[i] = list[i-1];
-			}
 		}
-		list = newList;
+		
+		ListElement currentElement = this.firstElement;		
+				
+		while (currentElement.getIndex() != index) {
+			currentElement = currentElement.getNextElement();
+		}
+		currentElement
+		ListElement newElement = new ListElement(item, currentElement.getIndex() + 1);
+		currentElement.setNextElement(newElement);
+		
 		ReturnObjectImpl emptyReturn = new ReturnObjectImpl(null);
 		return emptyReturn;
 	}
@@ -146,30 +146,33 @@ public class ArrayList implements List {
 	 * @return an ReturnObject, empty if the operation is successful or containing an appropriate error message otherwise
 	 */
 	public ReturnObjectImpl add(Object item) {
-		
+		if (this.isEmpty() == true) {
+			ReturnObjectImpl returnerror = new ReturnObjectImpl(ErrorMessage.EMPTY_STRUCTURE);
+			return returnerror;
+		}		
+		if (index < 0 || index >= this.size()) {
+			ReturnObjectImpl returnerror = new ReturnObjectImpl(ErrorMessage.INDEX_OUT_OF_BOUNDS);
+			return returnerror;
+		}		
 		if (item == null) {
 			ReturnObjectImpl returnerror = new ReturnObjectImpl(ErrorMessage.INVALID_ARGUMENT);
 			return returnerror;
 		}
 		
-		int newLength = list.length + 1;
-		Object[] newList = new Object[newLength];
+		ListElement currentElement = this.firstElement;
 		
-		for (int i = 0; i < list.length; i++) {
-			newList[i] = list[i];
+		if (firstElement == null) {
+			ListElement newElement = new ListElement(item, 0);
+			this.firstElement = newElement;
 		}
-		newList[newLength - 1] = item;
-		list = newList;
+		else {
+			while (currentElement.getNextElement() != null){
+			currentElement = currentElement.getNextElement();
+			}
+			ListElement newElement = new ListElement(item, currentElement.getIndex() + 1);
+			currentElement.setNextElement(newElement);
+		}
 		ReturnObjectImpl emptyReturn = new ReturnObjectImpl(null);
 		return emptyReturn;
-	}
-	
-	public void getList() {
-		System.out.print("{");
-		for (int i = 0; i < list.length; i++) {
-			System.out.print(list[i] + ", ");
-		}
-		System.out.print("}");
-		System.out.println();
 	}
 }
