@@ -22,12 +22,19 @@ public class LinkedListLauncher {
 		System.out.print("Iteration 5: "); // 77, second element, 47, 78, 14, 15
 		myList.getList();
 		myList.add(2, "third element");
+		System.out.print("Iteration 6: "); // 77, second element, third element, 47, 78, 14, 15
+		myList.getList();
 		myList.add(0, "first element");
+		System.out.print("Iteration 7: "); // first element, 77, second element, third element, 47, 78, 14, 15
+		myList.getList();
 		myList.remove(1);
-		System.out.print("Iteration 6: "); // first element, second element, third element, 47, 78, 14, 15
+		System.out.print("Iteration 8: "); // first element, second element, third element, 47, 78, 14, 15
 		myList.getList();
 		myList.remove(0);
-		System.out.print("Iteration 6: "); // second element, third element, 47, 78, 14, 15
+		System.out.print("Iteration 9: "); // second element, third element, 47, 78, 14, 15
+		myList.getList();
+		myList.add(5, 1899);
+		System.out.print("Iteration 10: "); //  // second element, third element, 47, 78, 14, 15, 1899
 		myList.getList();
 	}	
 }

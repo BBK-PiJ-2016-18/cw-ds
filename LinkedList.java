@@ -139,6 +139,7 @@ public class LinkedList implements List {
 		
 		if (index == 0) {
 			ListElement newElement = new ListElement(item, 0, currentElement);
+			this.firstElement = newElement;
 			currentElement = newElement;
 		}
 		else {
