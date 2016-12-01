@@ -19,7 +19,7 @@ public class FunctionalArrayList extends ArrayList implements FunctionalList {
 			ReturnObjectImpl error = new ReturnObjectImpl(ErrorMessage.EMPTY_STRUCTURE);
 			return error;
 		}
-		ReturnObjectImpl head = new ReturnObjectImpl(this.get(0));
+		ReturnObjectImpl head = new ReturnObjectImpl(this.list[0]);
 		return head;
 	}
 
@@ -37,5 +37,9 @@ public class FunctionalArrayList extends ArrayList implements FunctionalList {
 			rest.add(this.list[i]);
 		}
 		return rest;
+	}
+	
+	public void getHead() {
+		System.out.println(this.head().getReturnValue());
 	}
 }

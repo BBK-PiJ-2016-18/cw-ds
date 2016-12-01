@@ -19,7 +19,7 @@ public class FunctionalLinkedList extends LinkedList implements FunctionalList {
 			ReturnObjectImpl error = new ReturnObjectImpl(ErrorMessage.EMPTY_STRUCTURE);
 			return error;
 		}
-		ReturnObjectImpl head = new ReturnObjectImpl(this.get(0));
+		ReturnObjectImpl head = new ReturnObjectImpl(this.get(0).getReturnValue());
 		return head;
 	}
 
@@ -37,5 +37,9 @@ public class FunctionalLinkedList extends LinkedList implements FunctionalList {
 			rest.add(this.get(i).getReturnValue());
 		}
 		return rest;
+	}
+	
+	public void getHead() {
+		System.out.println(this.head().getReturnValue());
 	}
 }
