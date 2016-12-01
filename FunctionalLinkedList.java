@@ -6,7 +6,7 @@
  * (as defined in {@see ErrorMessage}).
  * @author PiJ
  */
-public class FunctionalArrayList extends ArrayList implements FunctionalList {
+public class FunctionalLinkedList extends LinkedList implements FunctionalList {
     /**
      * Returns the element at the beginning of the list. 
      * 
@@ -28,13 +28,13 @@ public class FunctionalArrayList extends ArrayList implements FunctionalList {
      * 
      * If the list is empty, another empty list is returned. 
      */
-    public FunctionalArrayList rest() {
+    public FunctionalLinkedList rest() {
 		if (this.isEmpty() == true) {
 			return this;
 		}
-		FunctionalArrayList rest = new FunctionalArrayList();
+		FunctionalLinkedList rest = new FunctionalLinkedList();
 		for (int i = 1; i < this.size(); i++) {
-			rest.add(this.list[i]);
+			rest.add(this.get(i).getReturnValue());
 		}
 		return rest;
 	}

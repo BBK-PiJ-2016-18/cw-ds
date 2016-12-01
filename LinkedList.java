@@ -88,12 +88,17 @@ public class LinkedList implements List {
 		ListElement removedElement = null;
 		ListElement currentElement = this.firstElement;
 		
-		if (index == 0) {
-			removedElement = this.firstElement;
-			this.firstElement = removedElement.getNextElement();
-			currentElement = this.firstElement;	
-			removedElement.setNextElement(null);		
-			currentElement.reduceIndex();
+		if (index == 0) {		
+			if (this.size() == 1) {
+				this.firstElement = null;
+			}
+			else{
+				removedElement = this.firstElement;
+				this.firstElement = removedElement.getNextElement();
+				currentElement = this.firstElement;	
+				removedElement.setNextElement(null);		
+				currentElement.reduceIndex();
+			}			
 		}
 		else {		
 			while (currentElement.getNextElement().getIndex() != index) {
