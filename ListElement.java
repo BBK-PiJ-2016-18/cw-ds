@@ -21,9 +21,13 @@ public class ListElement {
 		this.nextElement = nextElement;
 	}
 	
+	public Object getElement() {
+		return this.element;
+	}
+	
 	public ListElement getNextElement() {
 		return this.nextElement;
-	}
+	}	
 	
 	public void setNextElement(ListElement nextElement) {
 		this.nextElement = nextElement;
@@ -31,6 +35,10 @@ public class ListElement {
 	
 	public int getIndex() {
 		return this.index;
+	}
+	
+	public void setIndex(int index) {
+		this.index = index;
 	}
 	
 	/** This method is used when an element is removed to fix the indexes of the elements after the deleted element */
@@ -43,12 +51,6 @@ public class ListElement {
 	
 	public void increaseIndex() {
 		this.index++;
-	}
-	
-	/** This method is used when an element is added removed immdediately after this element, to change the pointer as required */
-	
-	public void changePointer(ListElement element) {
-		this.nextElement = element;
 	}
 	
 	/**public void deleteElement() {
@@ -64,4 +66,4 @@ public class ListElement {
 			currentElement.index = currentElement.getIndex() - 1;
 		}
 	} */
-}.
+}
