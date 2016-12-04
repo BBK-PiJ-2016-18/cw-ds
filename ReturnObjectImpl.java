@@ -13,7 +13,7 @@ public class ReturnObjectImpl implements ReturnObject {/**
 	* The constructor for when there is no error
 	*/
 	
-	ReturnObjectImpl(Object obj) {
+	public ReturnObjectImpl(Object obj) {
 		this.obj = obj;
 		this.error = ErrorMessage.NO_ERROR;
 	}
